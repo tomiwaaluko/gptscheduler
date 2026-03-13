@@ -6,14 +6,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a CPU Process Scheduling Simulator (Programming Assignment 1). The goal is to implement a simulator that reads process definitions from an input file and simulates three scheduling algorithms: FCFS, SJF (preemptive), and Round-Robin.
 
-## Testing
+## Build & Run
 
-No build system exists yet — add commands here once the implementation language is chosen. To validate output against expected results:
+**Environment setup (required — adds rustup GNU toolchain and MinGW GCC to PATH):**
+```bash
+export PATH="/c/Users/gokug/.cargo/bin:/c/Users/gokug/scoop/apps/mingw/current/bin:$PATH"
+```
 
 ```bash
-# Compare your program's output against expected output
-./scheduler input.in > output.out
-diff output.out pa1-testfiles/c2-fcfs.out
+cargo build                                          # debug build
+cargo build --release                                # release build
+./target/debug/scheduler pa1-testfiles/c2-fcfs.in   # run
+```
+
+## Testing
+
+Use the `/run-tests` skill to run all 9 test cases, or `/run-test c2-fcfs` for a single case.
+
+To validate manually:
+```bash
+./target/debug/scheduler pa1-testfiles/c2-fcfs.in > /tmp/out.txt
+diff /tmp/out.txt pa1-testfiles/c2-fcfs.out
 ```
 
 Test files are in `pa1-testfiles/`. Each algorithm has test suites for 2, 5, and 10 processes:
