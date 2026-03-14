@@ -77,3 +77,28 @@ Output must match expected files **exactly** (including spacing and formatting).
 - **Wait time**: total time spent waiting (not running)
 - **Turnaround time**: completion time − arrival time
 - **Response time**: time of first CPU selection − arrival time
+
+## Implementation Status
+
+**Complete.** All 9 test cases pass (3 algorithms × 3 process counts). The implementation is in `src/main.rs`.
+
+### Architecture (`src/main.rs`)
+
+- `main()` — parses input, prints header, dispatches to algorithm, prints stats
+- `simulate_fcfs()` — uses `VecDeque` FIFO ready queue; non-preemptive; finish detected via pre-computed end time
+- `simulate_sjf()` — uses `Vec` ready set; linear scan each tick to find shortest remaining burst (ties broken by `input_order`); preempts running process when a strictly shorter one is available
+- `simulate_rr()` — uses `VecDeque` ready queue; arrivals enqueued before the quantum-expired process is re-enqueued; finish detected via `remaining == 0`
+
+### Toolchain
+
+Rust 1.94.0 installed via scoop + rustup (GNU toolchain). MinGW GCC required for linking on Windows.
+- Rustup binary: `C:\Users\gokug\.cargo\bin\`
+- MinGW GCC: `C:\Users\gokug\scoop\apps\mingw\current\bin\`
+
+### PowerShell Usage
+
+The `export` command does not work in PowerShell. Use:
+```powershell
+$env:PATH = "C:\Users\gokug\.cargo\bin;C:\Users\gokug\scoop\apps\mingw\current\bin;" + $env:PATH
+.\target\debug\scheduler.exe pa1-testfiles\c2-fcfs.in
+```
